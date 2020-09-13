@@ -1,9 +1,10 @@
 from django.db import models
+from .services import after_insert, before_insert
 
 # Create your models here.
 
 DOMAIN_TYPE = (
-        ('sp', 'Service Provide'),
+        ('sp', 'Service Provider'),
         ('vr', 'Vendor'),
         ('cr', 'Customer'),
     )
@@ -19,13 +20,14 @@ class Domain(models.Model):
     sys_created_on = models.DateTimeField(auto_now_add=True)
     sys_updated_on = models.DateTimeField(auto_now=True)
     domain_code = models.CharField(max_length=6)
-    domain_path = models.CharField(max_length=256)
+    domain_path = models.CharField(max_length=256, unique=True)
     type = models.CharField(choices=DOMAIN_TYPE, max_length=2, default="cr")
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-
+        before_insert(self)
         super().save(*args, **kwargs)
+        after_insert(self)
 
