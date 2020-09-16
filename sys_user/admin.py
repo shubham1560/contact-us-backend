@@ -9,4 +9,5 @@ class SysUserAdmin(UserAdmin):
     model = SysUser
 
 
+
 admin.site.register(SysUser, SysUserAdmin)

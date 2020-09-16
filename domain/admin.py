@@ -6,7 +6,7 @@ from .models import Domain
 class DomainAdmin(admin.ModelAdmin):
     model = Domain
     list_display = ['name', 'active', 'parent', 'domain_code', 'domain_path', 'type']
-    fields = ['name', 'active', 'description', 'parent', 'type']
+    fields = ['name', 'active', 'description', 'parent', 'type', 'default']
     ordering = ['-sys_created_on']
 
 

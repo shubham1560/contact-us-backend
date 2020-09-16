@@ -22,6 +22,7 @@ class Domain(models.Model):
     domain_code = models.CharField(max_length=6)
     domain_path = models.CharField(max_length=256, unique=True)
     type = models.CharField(choices=DOMAIN_TYPE, max_length=2, default="cr")
+    default = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -32,10 +33,10 @@ class Domain(models.Model):
         after_insert(self)
 
     def delete(self, using=None, keep_parents=False):
-        print("deleting the mofo mofo!")
+        # print("deleting the mofo mofo!")
         # breakpoint()
         super(Domain, self).delete()
-        
+
     # def _do_update(self, base_qs, using, pk_val, values, update_fields, forced_update):
     #     breakpoint()
         # super()._do_update(base_qs, using, pk_val, values, update_fields, forced_update)
