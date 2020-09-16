@@ -1,5 +1,5 @@
 from django.db import models
-from .services import after_insert, before_insert
+from .business_rules import after_insert, before_insert
 
 # Create your models here.
 
@@ -31,3 +31,11 @@ class Domain(models.Model):
         super().save(*args, **kwargs)
         after_insert(self)
 
+    def delete(self, using=None, keep_parents=False):
+        print("deleting the mofo mofo!")
+        # breakpoint()
+        super(Domain, self).delete()
+        
+    # def _do_update(self, base_qs, using, pk_val, values, update_fields, forced_update):
+    #     breakpoint()
+        # super()._do_update(base_qs, using, pk_val, values, update_fields, forced_update)
