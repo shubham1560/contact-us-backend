@@ -1,5 +1,5 @@
 # from .models import Domain
-from .services import get_domain_code
+from .services import get_domain_code, get_api_key
 
 
 def before_insert(current_object):
@@ -18,6 +18,7 @@ def before_insert(current_object):
             current_object.domain_path = current_object.parent.domain_path + current_object.domain_code
         else:
             current_object.domain_path = current_object.domain_code
+        current_object.api_key = get_api_key(32)
         """
         If there is not id for the object, then the object is being inserted and new insertion logic should 
         go here to bifurcate the requests

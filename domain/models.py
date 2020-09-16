@@ -23,6 +23,7 @@ class Domain(models.Model):
     domain_path = models.CharField(max_length=256, unique=True)
     type = models.CharField(choices=DOMAIN_TYPE, max_length=2, default="cr")
     default = models.BooleanField(default=False)
+    api_key = models.CharField(max_length=32, null=True, unique=True, blank=True)
 
     def __str__(self):
         return self.name
