@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_countries',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sys_user.apps.SysUserConfig',
-    'domain.apps.DomainConfig'
+    'domain.apps.DomainConfig',
+    'contact_form.apps.ContactFormConfig'
 ]
 
 AUTH_USER_MODEL = 'sys_user.SysUser'
