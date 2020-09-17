@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers, status
 from .models import ContactForm
 from rest_framework.response import Response
-from .services import insert_contact_data
+from .services import insert_contact_data, get_related_forms_records
 
 
 # Create your views here.
@@ -19,7 +19,7 @@ class ContactUsFormView(APIView):
 
     def get(self, request, format=None):
         # breakpoint()
-        contacts_data = ContactForm.objects.all()
+        contacts_data = get_related_forms_records(request)
         result = self.ContactUsFormSerializer(contacts_data, many=True)
         return Response(result.data, status=status.HTTP_200_OK)
 

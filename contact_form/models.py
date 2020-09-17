@@ -12,3 +12,7 @@ class ContactForm(models.Model):
     subject = models.TextField(null=True, blank=True)
     message = models.TextField(null=True, blank=True)
     anything_else = models.TextField(null=True, blank=True)
+    active = models.BooleanField(null=True, blank=True)
+
+    def __str__(self):
+        return self.email or '' + ' ' + self.subject or ''
