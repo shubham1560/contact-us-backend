@@ -1,4 +1,5 @@
 from sys_user.models import SysUser
+from domain.models import Domain
 from django.db import models
 
 
@@ -15,6 +16,8 @@ class FetchRecord:
     def table_object(self):
         if self.table_name == "SysUser":
             return SysUser
+        if self.table_name == "Domain":
+            return Domain
 
     def add_query(self, *args):
         if len(args) == 2:
@@ -31,12 +34,14 @@ class FetchRecord:
 
     def add_active_query(self):
         self.filter_string["active"] = True
+        if self.table_name == "SysUser":
+            self.filter_string['is_active'] = True
 
     def show_query(self):
         print(self.query)
 
-    def add_active_query(self):
-        self.filter_string["is_active"] = True
+    # def add_active_query(self):
+    #     self.filter_string["is_active"] = True
 
     def add_encoded_query(self):
         pass
@@ -84,7 +89,7 @@ class FetchRecord:
             ).exclude(
                 **self.exclude_string
             )
-        print(result)
+        return result
 
 
 
