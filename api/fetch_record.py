@@ -1,5 +1,6 @@
 from sys_user.models import SysUser
 from domain.models import Domain
+from contact_form.models import ContactForm
 from django.db import models
 
 
@@ -18,6 +19,8 @@ class FetchRecord:
             return SysUser
         if self.table_name == "Domain":
             return Domain
+        if self.table_name == 'ContactForm':
+            return ContactForm
 
     def add_query(self, *args):
         if len(args) == 2:
@@ -26,11 +29,11 @@ class FetchRecord:
             if args[1] == "!=":
                 self.exclude_string[args[0]] = args[2]
             if args[1] == "<":
-                self.filter_string[args[1]+"__lt"] = args[2]
+                self.filter_string[args[0]+"__lt"] = args[2]
             if args[1] == ">":
-                self.filter_string[args[1]+"__gt"] = args[2]
+                self.filter_string[args[0]+"__gt"] = args[2]
             if args[1] == "contains":
-                self.filter_string[args[1]+"__contains"] = args[2]
+                self.filter_string[args[0]+"__contains"] = args[2]
 
     def add_active_query(self):
         self.filter_string["active"] = True

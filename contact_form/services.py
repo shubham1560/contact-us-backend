@@ -4,7 +4,7 @@ from domain.models import Domain
 
 
 def insert_contact_data(request):
-    # breakpoint()
+    breakpoint()
     domain = get_domain(request.META['HTTP_API_KEY'])
     gr = ContactForm()
     gr.name = request.POST.get('name', '')
@@ -20,10 +20,13 @@ def insert_contact_data(request):
 
 
 def get_related_forms_records(request):
+    # breakpoint()
     gr = FetchRecord('ContactForm')
     gr.add_active_query()
-    gr.add_query('')
-    pass
+    gr.add_query('domain_path', 'contains', request.user.domain_path)
+    result = gr.query()
+    # breakpoint()
+    return result
 
 
 def get_domain(api_key):
@@ -35,4 +38,7 @@ def get_domain(api_key):
         return domain[0]
     else:
         return Domain.objects.filter(default=True)[0]
+
+
+
 

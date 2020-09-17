@@ -1,3 +1,4 @@
+from django_countries import Countries
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import serializers, status
@@ -8,8 +9,19 @@ from .services import insert_contact_data, get_related_forms_records
 
 # Create your views here.
 
+class SerializableCountryField(serializers.ChoiceField):
+    def __init__(self, **kwargs):
+        super(SerializableCountryField, self).__init__(choices=Countries())
+
+    def to_representation(self, value):
+        if value in ('', None):
+            return '' # normally here it would return value. which is Country(u'') and not serialiable
+        return super(SerializableCountryField, self).to_representation(value)
+
+
 class ContactUsFormView(APIView):
     permission_classes = (IsAuthenticated, )
+    country = SerializableCountryField(allow_blank=True)
 
     class ContactUsFormSerializer(serializers.ModelSerializer):
         class Meta:
