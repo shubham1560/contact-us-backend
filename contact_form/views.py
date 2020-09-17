@@ -27,7 +27,8 @@ class ContactUsFormView(APIView):
         class Meta:
             model = ContactForm
             fields = ('id', 'first_name', 'last_name',
-                      'country', 'name', 'email', 'subject', 'message', 'anything_else')
+                      'country', 'name', 'email', 'subject', 'message', 'anything_else',
+                      'domain', 'domain_path')
 
     def get(self, request, format=None):
         # breakpoint()
