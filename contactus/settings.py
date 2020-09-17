@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sys_user.apps.SysUserConfig',
     'domain.apps.DomainConfig',
-    'contact_form.apps.ContactFormConfig'
+    'contact_form.apps.ContactFormConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
+
 ]
 
 AUTH_USER_MODEL = 'sys_user.SysUser'
@@ -54,6 +57,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
 
 ROOT_URLCONF = 'contactus.urls'
 
