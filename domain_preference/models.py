@@ -1,5 +1,6 @@
 from django.db import models
-
+from .business_rules import after_insert, before_insert
+from sys_user.models import SysUser
 # Create your models here.
 
 
@@ -24,8 +25,10 @@ class DomainPreference(models.Model):
     anything_else = models.BooleanField(default=True)
     sys_created_on = models.DateTimeField(auto_now_add=True)
     sys_updated_on = models.DateTimeField(auto_now=True)
+    sys_created_by = models.ForeignKey(SysUser, null=True, blank=True)
+    sys_updated_by = models.ForeignKey(SysUser, null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        before_insert_domain_preference(self)
+        before_insert(self)
         super().save(*args, **kwargs)
-        after_insert_domain_preference(self)
+        after_insert(self)
