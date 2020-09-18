@@ -1,7 +1,5 @@
 from django.db import models
-from .business_rules import after_insert_domain, before_insert_domain, \
-    before_insert_domain_preference, \
-    after_insert_domain_preference
+from .business_rules import after_insert_domain, before_insert_domain
 
 # Create your models here.
 
@@ -10,13 +8,6 @@ DOMAIN_TYPE = (
         ('vr', 'Vendor'),
         ('cr', 'Customer'),
     )
-
-DEVICE_TYPE = (
-    ('MLD', 'Mobile list display'),
-    ('MFD', 'Mobile form display'),
-    ('DLD', 'Desktop list display'),
-    ('DFD', 'Desktop form display')
-)
 
 
 class Domain(models.Model):
@@ -51,20 +42,3 @@ class Domain(models.Model):
     #     breakpoint()
         # super()._do_update(base_qs, using, pk_val, values, update_fields, forced_update)
 
-
-class DomainPreference(models.Model):
-    device_type = models.CharField(choices=DEVICE_TYPE, default=2)
-    domain = models.ForeignKey(Domain, null=True, blank=True, on_delete=models.CASCADE)
-    first_name = models.BooleanField(default=True)
-    last_name = models.BooleanField(default=True)
-    country = models.BooleanField(default=True)
-    name = models.BooleanField(default=True)
-    email = models.BooleanField(default=True)
-    subject = models.BooleanField(default=True)
-    message = models.BooleanField(default=True)
-    anything_else = models.BooleanField(default=True)
-
-    def save(self, *args, **kwargs):
-        before_insert_domain_preference(self)
-        super().save(*args, **kwargs)
-        after_insert_domain_preference(self)
