@@ -6,6 +6,8 @@ def before_insert(current_object):
         If the object already has the id, then the object is being updated, so the logic after updating should
         go here
         """
+        if current_object.domain:
+            current_object.domain_path = current_object.domain.domain_path
         pass
 
     if not current_object.id:
