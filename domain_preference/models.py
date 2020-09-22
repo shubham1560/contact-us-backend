@@ -1,6 +1,7 @@
 from django.db import models
 from .business_rules import after_insert, before_insert
 from sys_user.models import SysUser
+from domain.models import Domain
 # Create your models here.
 
 
@@ -13,7 +14,7 @@ DEVICE_TYPE = (
 
 
 class DomainPreference(models.Model):
-    device_type = models.CharField(choices=DEVICE_TYPE, default=2)
+    device_type = models.CharField(choices=DEVICE_TYPE, default=2, max_length=3)
     domain = models.ForeignKey(Domain, null=True, blank=True, on_delete=models.CASCADE)
     first_name = models.BooleanField(default=True)
     last_name = models.BooleanField(default=True)
@@ -25,8 +26,11 @@ class DomainPreference(models.Model):
     anything_else = models.BooleanField(default=True)
     sys_created_on = models.DateTimeField(auto_now_add=True)
     sys_updated_on = models.DateTimeField(auto_now=True)
-    sys_created_by = models.ForeignKey(SysUser, null=True, blank=True)
-    sys_updated_by = models.ForeignKey(SysUser, null=True, blank=True)
+    sys_created_by = models.ForeignKey(SysUser, null=True, blank=True, on_delete=models.CASCADE,
+                                       related_name='domain_preference_created_by')
+    sys_updated_by = models.ForeignKey(SysUser, null=True, blank=True, on_delete=models.CASCADE,
+                                       related_name='domain_preference_updated_by')
+    active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         before_insert(self)
