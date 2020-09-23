@@ -4,11 +4,12 @@ import os
 import sys
 from decouple import config
 
+
 def main():
     """Run administrative tasks."""
 
     if config('LIVE') == "FALSE":
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.dev')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.final')
     else:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.final')
     try:
