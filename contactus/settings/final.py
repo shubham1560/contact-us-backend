@@ -1,5 +1,7 @@
 from .base import *
 
+AWS_STORAGE_BUCKET_NAME = 'contact-us-storage'
+
 if config('PRODUCTION') == "TRUE":
     DATABASES = {
 

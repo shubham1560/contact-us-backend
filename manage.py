@@ -9,7 +9,7 @@ def main():
     """Run administrative tasks."""
 
     if config('LIVE') == "FALSE":
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.final')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.dev')
     else:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.final')
     try:

@@ -13,7 +13,7 @@ from decouple import config
 from django.core.wsgi import get_wsgi_application
 
 if config('LIVE') == "FALSE":
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.final')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.dev')
 else:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'contactus.settings.final')
 

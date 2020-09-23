@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     'contact_form.apps.ContactFormConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'domain_preference.apps.DomainPreferenceConfig'
-
+    'domain_preference.apps.DomainPreferenceConfig',
+    'storages'
 ]
 
 AUTH_USER_MODEL = 'sys_user.SysUser'
