@@ -125,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Calcutta'
 
 USE_I18N = True
 
@@ -140,8 +140,18 @@ ALLOWED_HOSTS = ['contact-api-backend.herokuapp.com', ]
 
 # STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+
+
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_QUERYSTRING_AUTH = False
