@@ -5,8 +5,15 @@ from django.db import models
 from .business_rules import after_insert, before_insert
 # Create your models here.
 
+USER_TYPE = [
+        ('GU', 'GOOGLE'),
+        ('SU', 'SYSTEM'),
+        ('FU', 'FACEBOOK'),
+    ]
+
 
 class SysUser(AbstractUser):
+    user_type = models.CharField(choices=USER_TYPE, max_length=2, default="SU")
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     domain_path = models.CharField(max_length=256, default='/')
 
