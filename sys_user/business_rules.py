@@ -33,7 +33,8 @@ def after_insert(current_object):
     If there is any logic that has to run after the object has been saved, maybe based on the object or any
     notification changes, it can be done here
     """
-    token = Token(user=current_object)
-    token.save()
+    if not current_object.id:
+        token = Token(user=current_object)
+        token.save()
     # breakpoint()
     return

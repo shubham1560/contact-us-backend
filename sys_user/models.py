@@ -26,4 +26,5 @@ class SysUser(AbstractUser):
         after_insert(self)
 
     def delete(self, using=None, keep_parents=False):
-        super(Domain, self).delete()
+        # super(Domain, self).delete()
+        pass
