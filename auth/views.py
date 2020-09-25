@@ -9,6 +9,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.response import Response
 from sys_user.models import SysUser
+from rest_framework import serializers
+from .services import create_root_user
 
 
 class ObtainAuthTokenViewSet(APIView):
@@ -62,6 +64,36 @@ class ObtainAuthTokenViewSet(APIView):
             except ObjectDoesNotExist:
                 response = {'message': "The user with this email address doesn't exist"}
 
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateUserSystemViewSet(APIView):
+    class CreateUserSerializer(serializers.ModelSerializer):
+        username = serializers.EmailField()
+        password = serializers.CharField(
+            style={'input_type': 'password'}
+        )
+        first_name = serializers.CharField(max_length=50)
+        last_name = serializers.CharField(max_length=50, required=False, allow_blank=True)
+
+        class Meta:
+            model = SysUser
+            fields = ('username', 'password', 'first_name', 'last_name')
+
+    def post(self, request, format=None):
+        # breakpoint()
+        serializer = self.CreateUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if create_root_user(**serializer.validated_data):
+            response = {'message': 'user has been created'}
+            return Response(response, status=status.HTTP_201_CREATED)
+        else:
+            user = SysUser.objects.get(email=request.data['username'])
+            if user.is_active:
+                response = {'message': 'User Already Exists, please log in to the account!', 'ue': True}
+            else:
+                response = {"message": 'Please activate the account, the mail had been sent when you first registered!',
+                            'ue': True}
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
 

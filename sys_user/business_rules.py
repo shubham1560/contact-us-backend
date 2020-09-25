@@ -3,7 +3,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
 
 
-
 def before_insert(current_object):
     # breakpoint()
 
