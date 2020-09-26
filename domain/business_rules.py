@@ -3,6 +3,7 @@ from .services import get_domain_code, get_api_key
 
 
 def before_insert_domain(current_object):
+
     # breakpoint()
 
     if current_object.id:

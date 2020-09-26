@@ -19,7 +19,7 @@ class SerializableCountryField(serializers.ChoiceField):
         return super(SerializableCountryField, self).to_representation(value)
 
 
-class ContactUsFormView(APIView):
+class ContactUsListView(APIView):
     permission_classes = (IsAuthenticated, )
     country = SerializableCountryField(allow_blank=True)
 
@@ -31,7 +31,6 @@ class ContactUsFormView(APIView):
                       'domain', 'domain_path')
 
     def get(self, request, format=None):
-        # breakpoint()
         contacts_data = get_related_forms_records(request)
         result = self.ContactUsFormSerializer(contacts_data, many=True)
         return Response(result.data, status=status.HTTP_200_OK)
@@ -40,4 +39,20 @@ class ContactUsFormView(APIView):
         insert_contact_data(request)
         return Response('Inserted data', status=status.HTTP_201_CREATED)
         # pass
+
+
+class ContactUsPostView(APIView):
+    # permission_classes = (IsAuthenticated, )
+    country = SerializableCountryField(allow_blank=True)
+
+    class ContactUsFormSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = ContactForm
+            fields = ('id', 'first_name', 'last_name',
+                      'country', 'name', 'email', 'subject', 'message', 'anything_else',
+                      'domain', 'domain_path')
+
+    def post(self, request, format=None):
+        insert_contact_data(request)
+        return Response('Inserted data', status=status.HTTP_201_CREATED)
 

@@ -4,7 +4,7 @@ from domain.models import Domain
 
 
 def insert_contact_data(request):
-    breakpoint()
+    # breakpoint()
     domain = get_domain(request.META['HTTP_API_KEY'])
     gr = ContactForm()
     gr.name = request.POST.get('name', '')
