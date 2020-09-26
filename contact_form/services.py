@@ -20,11 +20,13 @@ def insert_contact_data(request):
     gr.save()
 
 
-def get_related_forms_records(request):
+def get_related_forms_records(request, start, end):
     # breakpoint()
     gr = FetchRecord('ContactForm')
     gr.add_active_query()
     gr.add_query('domain_path', 'contains', request.user.domain_path)
+    gr.choose_window(start, end)
+    gr.order_by_desc("sys_created_on")
     result = gr.query()
     # breakpoint()
     return result
@@ -42,10 +44,9 @@ def get_domain(api_key):
 
 
 def get_preference_array(request):
-    breakpoint()
-    preference = DomainPreference.objects.get(domain_path=request.user.domain_path)
+    # breakpoint()
+    preference = DomainPreference.objects.filter(domain_path=request.user.domain_path, device_type="DLD")
     return preference
-    pass
 
 
 

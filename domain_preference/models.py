@@ -14,7 +14,7 @@ DEVICE_TYPE = (
 
 
 class DomainPreference(models.Model):
-    device_type = models.CharField(choices=DEVICE_TYPE, default=2, max_length=3)
+    device_type = models.CharField(choices=DEVICE_TYPE, default="DLD", max_length=3)
     domain = models.ForeignKey(Domain, null=True, blank=True, on_delete=models.CASCADE)
     domain_path = models.CharField(max_length=300, default="/")
     first_name = models.BooleanField(default=True)
@@ -25,6 +25,7 @@ class DomainPreference(models.Model):
     subject = models.BooleanField(default=True)
     message = models.BooleanField(default=True)
     anything_else = models.BooleanField(default=True)
+    phone_number = models.BooleanField(default=True)
     sys_created_on = models.DateTimeField(auto_now_add=True)
     sys_updated_on = models.DateTimeField(auto_now=True)
     sys_created_by = models.ForeignKey(SysUser, null=True, blank=True, on_delete=models.CASCADE,

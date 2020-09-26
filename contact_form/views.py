@@ -5,6 +5,7 @@ from rest_framework import serializers, status
 from .models import ContactForm
 from rest_framework.response import Response
 from .services import insert_contact_data, get_related_forms_records, get_preference_array
+from domain_preference.models import DomainPreference
 
 
 # Create your views here.
@@ -28,13 +29,24 @@ class ContactUsListView(APIView):
             model = ContactForm
             fields = ('id', 'first_name', 'last_name',
                       'name', 'email', 'subject', 'message', 'anything_else',
-                      'phone_number')
+                      'phone_number', 'sys_created_on')
 
-    def get(self, request, format=None):
-        contacts_data = get_related_forms_records(request)
+    class DomainPreferenceSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = DomainPreference
+            fields = ('id', 'first_name', 'last_name', 'name', 'email', 'subject',
+                      'message', 'anything_else', 'phone_number')
+
+    def get(self, request, start, end, format=None):
+        contacts_data = get_related_forms_records(request, start, end)
         domain_preference = get_preference_array(request)
         result = self.ContactUsFormSerializer(contacts_data, many=True)
-        return Response(result.data, status=status.HTTP_200_OK)
+        preference = self.DomainPreferenceSerializer(domain_preference, many=True)
+        response = {
+            "list": result.data,
+            "preference": preference.data,
+        }
+        return Response(response, status=status.HTTP_200_OK)
 
     # def post(self, request, format=None):
     #     insert_contact_data(request)

@@ -6,6 +6,7 @@ from .business_rules import before_insert, after_insert
 
 
 class ContactForm(models.Model):
+    read = models.BooleanField(default=False)
     first_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     country = CountryField(null=True, blank=True, blank_label='(select country)')
@@ -18,6 +19,8 @@ class ContactForm(models.Model):
     active = models.BooleanField(null=True, blank=True, default=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     domain_path = models.CharField(max_length=256, default='/')
+    sys_created_on = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    sys_updated_on = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
         return self.email or '' + ' ' + self.subject or ''
