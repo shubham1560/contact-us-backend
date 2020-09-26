@@ -75,25 +75,28 @@ class CreateUserSystemViewSet(APIView):
         )
         first_name = serializers.CharField(max_length=50)
         last_name = serializers.CharField(max_length=50, required=False, allow_blank=True)
+        domain = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
         class Meta:
             model = SysUser
-            fields = ('username', 'password', 'first_name', 'last_name')
+            fields = ('username', 'password', 'first_name', 'last_name', 'domain')
 
     def post(self, request, format=None):
         # breakpoint()
         serializer = self.CreateUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        if create_root_user(**serializer.validated_data):
-            response = {'message': 'user has been created'}
+        if create_root_user(request.data['domain'], **serializer.validated_data):
+            response = {'message': 'Account created successfully'}
+            # response = ""
             return Response(response, status=status.HTTP_201_CREATED)
         else:
             user = SysUser.objects.get(email=request.data['username'])
             if user.is_active:
-                response = {'message': 'User Already Exists, please log in to the account!', 'ue': True}
+                response = {'message': 'Account already activated'
+                                       '<br>Please sign in to the account!', 'ua': True}
             else:
-                response = {"message": 'Please activate the account, the mail had been sent when you first registered!',
-                            'ue': True}
+                response = {"message": 'Inactive account',
+                            'ua': False}
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
 

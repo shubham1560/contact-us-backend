@@ -16,6 +16,7 @@ class SysUser(AbstractUser):
     user_type = models.CharField(choices=USER_TYPE, max_length=2, default="SU")
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     domain_path = models.CharField(max_length=256, default='/')
+    is_company_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
