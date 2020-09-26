@@ -17,6 +17,7 @@ class DomainPreference(models.Model):
     device_type = models.CharField(choices=DEVICE_TYPE, default="DLD", max_length=3)
     domain = models.ForeignKey(Domain, null=True, blank=True, on_delete=models.CASCADE)
     domain_path = models.CharField(max_length=300, default="/")
+    # window = models.IntegerField(default=50)
     first_name = models.BooleanField(default=True)
     last_name = models.BooleanField(default=True)
     country = models.BooleanField(default=True)
