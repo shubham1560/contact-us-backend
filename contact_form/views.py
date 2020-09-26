@@ -27,7 +27,7 @@ class ContactUsListView(APIView):
         class Meta:
             model = ContactForm
             fields = ('id', 'first_name', 'last_name',
-                      'country', 'name', 'email', 'subject', 'message', 'anything_else',
+                      'name', 'email', 'subject', 'message', 'anything_else',
                       'domain', 'domain_path')
 
     def get(self, request, format=None):
@@ -35,10 +35,10 @@ class ContactUsListView(APIView):
         result = self.ContactUsFormSerializer(contacts_data, many=True)
         return Response(result.data, status=status.HTTP_200_OK)
 
-    def post(self, request, format=None):
-        insert_contact_data(request)
-        return Response('Inserted data', status=status.HTTP_201_CREATED)
-        # pass
+    # def post(self, request, format=None):
+    #     insert_contact_data(request)
+    #     return Response('Inserted data', status=status.HTTP_201_CREATED)
+    #     # pass
 
 
 class ContactUsPostView(APIView):

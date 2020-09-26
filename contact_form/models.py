@@ -11,6 +11,7 @@ class ContactForm(models.Model):
     country = CountryField(null=True, blank=True, blank_label='(select country)')
     name = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField(max_length=200, null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
     subject = models.TextField(null=True, blank=True)
     message = models.TextField(null=True, blank=True)
     anything_else = models.TextField(null=True, blank=True)
