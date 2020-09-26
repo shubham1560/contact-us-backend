@@ -1,6 +1,7 @@
 from .models import ContactForm
 from api.fetch_record import FetchRecord
 from domain.models import Domain
+from domain_preference.models import DomainPreference
 
 
 def insert_contact_data(request):
@@ -38,6 +39,13 @@ def get_domain(api_key):
         return domain[0]
     else:
         return Domain.objects.filter(default=True)[0]
+
+
+def get_preference_array(request):
+    breakpoint()
+    preference = DomainPreference.objects.get(domain_path=request.user.domain_path)
+    return preference
+    pass
 
 
 

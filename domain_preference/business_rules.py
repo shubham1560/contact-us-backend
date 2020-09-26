@@ -12,6 +12,8 @@ def before_insert(current_object):
         pass
 
     if not current_object.id:
+        if current_object.domain:
+            current_object.domain_path = current_object.domain.domain_path
         """
         If there is not id for the object, then the object is being inserted and new insertion logic should 
         go here to bifurcate the requests

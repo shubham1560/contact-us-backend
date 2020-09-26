@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers, status
 from .models import ContactForm
 from rest_framework.response import Response
-from .services import insert_contact_data, get_related_forms_records
+from .services import insert_contact_data, get_related_forms_records, get_preference_array
 
 
 # Create your views here.
@@ -28,10 +28,11 @@ class ContactUsListView(APIView):
             model = ContactForm
             fields = ('id', 'first_name', 'last_name',
                       'name', 'email', 'subject', 'message', 'anything_else',
-                      'domain', 'domain_path')
+                      'phone_number')
 
     def get(self, request, format=None):
         contacts_data = get_related_forms_records(request)
+        domain_preference = get_preference_array(request)
         result = self.ContactUsFormSerializer(contacts_data, many=True)
         return Response(result.data, status=status.HTTP_200_OK)
 
