@@ -7,6 +7,8 @@ from .business_rules import before_insert, after_insert
 
 class ContactForm(models.Model):
     read = models.BooleanField(default=False)
+    important = models.BooleanField(default=False)
+    starred = models.BooleanField(default=False)
     first_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     country = CountryField(null=True, blank=True, blank_label='(select country)')
