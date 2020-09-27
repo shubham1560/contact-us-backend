@@ -21,15 +21,24 @@ def insert_contact_data(request):
     gr.save()
 
 
-def get_related_forms_records(request, start, end):
+def get_related_forms_records(request, start, end, message_type):
     # breakpoint()
     gr = FetchRecord('ContactForm')
     gr.add_active_query()
     gr.add_query('domain_path', 'contains', request.user.domain_path)
     gr.choose_window(start, end)
     gr.order_by_desc("sys_created_on")
+    if message_type == "all":
+        pass
+    elif message_type == "important":
+        gr.add_query('important', True)
+    elif message_type == "read":
+        gr.add_query('read', True)
+    elif message_type == "unread":
+        gr.add_query('read', False)
+    elif message_type == "starred":
+        gr.add_query('starred', True)
     result = gr.query()
-    # breakpoint()
     return result
 
 
@@ -62,3 +71,20 @@ def change_field_value(request):
         return field, value, request.data['id']
     except ValidationError:
         return False
+
+
+def get_contact_form_count(request, message_type):
+    if message_type == "all":
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path).count()
+    if message_type == "important":
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, important=True).count()
+    if message_type == "read":
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, read=True).count()
+
+    if message_type == "unread":
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path,
+                                               read=False).count()
+
+    if message_type == "starred":
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, starred=True).count()
+    return row_count

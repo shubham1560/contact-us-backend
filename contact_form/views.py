@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from rest_framework import serializers, status
 from .models import ContactForm
 from rest_framework.response import Response
-from .services import insert_contact_data, get_related_forms_records, get_preference_array, change_field_value
+from .services import insert_contact_data, get_related_forms_records, get_preference_array, change_field_value,\
+    get_contact_form_count
 from domain_preference.models import DomainPreference
 
 
@@ -37,12 +38,14 @@ class ContactUsListView(APIView):
             fields = ('id', 'first_name', 'last_name', 'name', 'email', 'subject',
                       'message', 'anything_else', 'phone_number', 'window')
 
-    def get(self, request, start, format=None):
+    def get(self, request, start, message_type, format=None):
         domain_preference = get_preference_array(request)
         preference = self.DomainPreferenceSerializer(domain_preference, many=True)
-        contacts_data = get_related_forms_records(request, start, start+preference.data[0]['window'])
+        # message_type can be all, important, start, read, unread
+        contacts_data = get_related_forms_records(request, start, start+preference.data[0]['window'], message_type)
         result = self.ContactUsFormSerializer(contacts_data, many=True)
-        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path).count()
+        row_count = get_contact_form_count(request, message_type)
+
         # breakpoint()
         response = {
             "list": result.data,
