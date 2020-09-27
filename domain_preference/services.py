@@ -2,7 +2,6 @@ from .models import DomainPreference
 
 
 def change_domain_preference(request):
-    # breakpoint()
     obj, created = DomainPreference.objects.update_or_create(
         user=request.user,
         defaults={
@@ -17,6 +16,3 @@ def change_domain_preference(request):
             "phone_number": request.data['phone_number'],
         }
     )
-    # breakpoint()
-    # dom.
-    # pass

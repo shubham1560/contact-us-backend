@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers, status
 from .models import ContactForm
 from rest_framework.response import Response
-from .services import insert_contact_data, get_related_forms_records, get_preference_array
+from .services import insert_contact_data, get_related_forms_records, get_preference_array, change_field_value
 from domain_preference.models import DomainPreference
 
 
@@ -29,7 +29,7 @@ class ContactUsListView(APIView):
             model = ContactForm
             fields = ('id', 'first_name', 'last_name',
                       'name', 'email', 'subject', 'message', 'anything_else',
-                      'phone_number', 'sys_created_on')
+                      'phone_number', 'sys_created_on', 'important', 'read', 'starred')
 
     class DomainPreferenceSerializer(serializers.ModelSerializer):
         class Meta:
@@ -68,4 +68,14 @@ class ContactUsPostView(APIView):
     def post(self, request, format=None):
         insert_contact_data(request)
         return Response('Inserted data', status=status.HTTP_201_CREATED)
+
+
+class ContactUsChangeView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, format=None):
+        result = change_field_value(request)
+        return Response(result, status=status.HTTP_201_CREATED)
+
+    # pass
 

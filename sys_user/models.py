@@ -29,3 +29,6 @@ class SysUser(AbstractUser):
     def delete(self, using=None, keep_parents=False):
         # super(Domain, self).delete()
         pass
+
+    def user_domain(self):
+        return self.domain, self.domain_path

@@ -2,6 +2,7 @@ from .models import ContactForm
 from api.fetch_record import FetchRecord
 from domain.models import Domain
 from domain_preference.models import DomainPreference
+from rest_framework.exceptions import ValidationError
 
 
 def insert_contact_data(request):
@@ -49,5 +50,15 @@ def get_preference_array(request):
     return preference
 
 
-
-
+def change_field_value(request):
+    # breakpoint()
+    value = request.data['value'] == 'true'
+    field = request.data['field']
+    update_ = {field: value}
+    # breakpoint()
+    try:
+        ContactForm.objects.filter(id=request.data['id']).update(**update_)
+        return True
+    except ValidationError:
+        return False
+    # pass
