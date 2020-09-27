@@ -52,13 +52,13 @@ def get_preference_array(request):
 
 def change_field_value(request):
     # breakpoint()
-    value = request.data['value'] == 'true'
+
+    value = request.data['value']
     field = request.data['field']
     update_ = {field: value}
     # breakpoint()
     try:
-        ContactForm.objects.filter(id=request.data['id']).update(**update_)
-        return True
+        ContactForm.objects.filter(id=request.data['id'], domain_path=request.user.domain_path).update(**update_)
+        return field, value, request.data['id']
     except ValidationError:
         return False
-    # pass

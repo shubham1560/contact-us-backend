@@ -35,16 +35,19 @@ class ContactUsListView(APIView):
         class Meta:
             model = DomainPreference
             fields = ('id', 'first_name', 'last_name', 'name', 'email', 'subject',
-                      'message', 'anything_else', 'phone_number')
+                      'message', 'anything_else', 'phone_number', 'window')
 
-    def get(self, request, start, end, format=None):
-        contacts_data = get_related_forms_records(request, start, end)
+    def get(self, request, start, format=None):
         domain_preference = get_preference_array(request)
-        result = self.ContactUsFormSerializer(contacts_data, many=True)
         preference = self.DomainPreferenceSerializer(domain_preference, many=True)
+        contacts_data = get_related_forms_records(request, start, start+preference.data[0]['window'])
+        result = self.ContactUsFormSerializer(contacts_data, many=True)
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path).count()
+        # breakpoint()
         response = {
             "list": result.data,
             "preference": preference.data,
+            "row_count": row_count
         }
         return Response(response, status=status.HTTP_200_OK)
 
