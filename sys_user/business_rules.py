@@ -1,6 +1,7 @@
 # from .models import SysUser
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
+# from domain_preference.models import DomainPreference
 
 
 def before_insert(current_object):
@@ -38,6 +39,12 @@ def after_insert(current_object):
     """
     # if not current_object.id:
     # breakpoint()
+    # try:
+    #     DomainPreference.objects.get(user=current_object, domain_path=current_object.domain_path)
+    # except ObjectDoesNotExist:
+    #     preference = DomainPreference(user=current_object)
+    #     preference.save()
+
     try:
         Token.objects.get(user=current_object)
         return

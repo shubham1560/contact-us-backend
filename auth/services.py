@@ -1,5 +1,6 @@
 from sys_user.models import SysUser
 from domain.models import Domain
+from domain_preference.models import DomainPreference
 from rest_framework.authtoken.models import Token
 
 
@@ -15,6 +16,7 @@ def create_root_user(domain, **validated_data, ) -> SysUser:
                                     email=validated_data['username'],
                                     domain=domain_user,
                                     is_active=False,)
+        # preference = DomainPreference(user=)
         # try:
         #     send_confirmation_mail(email=validated_data['username'], token=str(token))
         # except ObjectDoesNotExist:

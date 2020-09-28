@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from domain.models import Domain
 from django.db import models
 from .business_rules import after_insert, before_insert
+# from domain_preference.models import DomainPreference
 # Create your models here.
 
 USER_TYPE = [
@@ -23,6 +24,7 @@ class SysUser(AbstractUser):
 
     def save(self, *args, **kwargs):
         before_insert(self)
+
         super().save(*args, **kwargs)
         after_insert(self)
 

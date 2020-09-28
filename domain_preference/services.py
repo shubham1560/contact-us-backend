@@ -19,6 +19,7 @@ def change_domain_preference(request):
     )
     breakpoint()
 
+
 def change_domain_preference_field(request):
     value = request.data['value']
     field = request.data['field']

@@ -5,7 +5,7 @@ from rest_framework import serializers, status
 from .models import ContactForm
 from rest_framework.response import Response
 from .services import insert_contact_data, get_related_forms_records, get_preference_array, change_field_value,\
-    get_contact_form_count
+    get_contact_form_count, delete_mass_contact_form
 from domain_preference.models import DomainPreference
 
 
@@ -42,7 +42,12 @@ class ContactUsListView(APIView):
         domain_preference = get_preference_array(request)
         preference = self.DomainPreferenceSerializer(domain_preference, many=True)
         # message_type can be all, important, start, read, unread
-        contacts_data = get_related_forms_records(request, start, start+preference.data[0]['window'], message_type)
+        # breakpoint()
+        if preference.data:
+            end = start+preference.data[0]['window']
+        else:
+            end = 50
+        contacts_data = get_related_forms_records(request, start, end, message_type)
         result = self.ContactUsFormSerializer(contacts_data, many=True)
         row_count = get_contact_form_count(request, message_type)
 
@@ -77,11 +82,19 @@ class ContactUsPostView(APIView):
 
 
 class ContactUsChangeView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request, format=None):
         result = change_field_value(request)
         return Response(result, status=status.HTTP_201_CREATED)
 
     # pass
+
+
+class ContactUsFormBulkDelete(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, format=None):
+        result = delete_mass_contact_form(request)
+        return Response(result, status=status.HTTP_200_OK)
 

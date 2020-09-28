@@ -75,16 +75,27 @@ def change_field_value(request):
 
 def get_contact_form_count(request, message_type):
     if message_type == "all":
-        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path).count()
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, active=True).count()
     if message_type == "important":
-        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, important=True).count()
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path,
+                                               active=True, important=True).count()
     if message_type == "read":
-        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, read=True).count()
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path,
+                                               read=True, active=True).count()
 
     if message_type == "unread":
-        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path,
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, active=True,
                                                read=False).count()
 
     if message_type == "starred":
-        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, starred=True).count()
+        row_count = ContactForm.objects.filter(domain_path__contains=request.user.domain_path, starred=True, active=True
+                                               ).count()
     return row_count
+
+
+def delete_mass_contact_form(request):
+    # breakpoint()
+    forms = ContactForm.objects.filter(id__in=request.data['ids'], domain_path__contains=request.user.domain_path)
+    forms.delete()
+    return forms
+    pass

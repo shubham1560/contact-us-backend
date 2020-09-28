@@ -18,7 +18,7 @@ class ContactForm(models.Model):
     subject = models.TextField(null=True, blank=True)
     message = models.TextField(null=True, blank=True)
     anything_else = models.TextField(null=True, blank=True)
-    active = models.BooleanField(null=True, blank=True, default=True)
+    active = models.BooleanField(default=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     domain_path = models.CharField(max_length=256, default='/')
     sys_created_on = models.DateTimeField(auto_now_add=True, null=True, blank=True)
