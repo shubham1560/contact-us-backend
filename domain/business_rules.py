@@ -19,7 +19,7 @@ def before_insert_domain(current_object):
             current_object.domain_path = current_object.parent.domain_path + current_object.domain_code
         else:
             current_object.domain_path = current_object.domain_code
-        current_object.api_key = get_api_key(32)
+        current_object.api_key = get_api_key(40)
         """
         If there is not id for the object, then the object is being inserted and new insertion logic should 
         go here to bifurcate the requests
