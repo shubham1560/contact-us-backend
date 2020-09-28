@@ -7,7 +7,7 @@ from .models import DomainPreference
 
 class DomainPreferenceAdmin(admin.ModelAdmin):
     model = DomainPreference
-    list_display = ['id', 'domain', 'device_type']
+    list_display = ['id', 'user', 'domain']
     exclude = ('sys_created_on', 'sys_created_by', 'sys_updated_on', 'sys_updated_by',)
     ordering = ['-sys_created_on']
 
