@@ -77,8 +77,13 @@ class ContactUsPostView(APIView):
                       'domain', 'domain_path')
 
     def post(self, request, format=None):
-        insert_contact_data(request)
-        return Response('Inserted data', status=status.HTTP_201_CREATED)
+        in_domain = insert_contact_data(request)
+        if in_domain == "Default":
+            message = "Wrong api key, please check the key in dashboard!"
+            # status = status.
+        else:
+            message = "Successful integration"
+        return Response(message, status=status.HTTP_201_CREATED)
 
 
 class ContactUsChangeView(APIView):

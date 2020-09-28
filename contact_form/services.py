@@ -19,6 +19,7 @@ def insert_contact_data(request):
     gr.subject = request.POST.get('subject', '')
     gr.domain = domain
     gr.save()
+    return domain.name
 
 
 def get_related_forms_records(request, start, end, message_type):
