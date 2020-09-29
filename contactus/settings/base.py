@@ -55,6 +55,7 @@ AUTH_USER_MODEL = 'sys_user.SysUser'
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
+    "https://contact-bridge.web.app"
     # "https://uf-front.web.app",
     # "https://uf-front.firebaseapp.com",
     # "https://sortedtree.com"
