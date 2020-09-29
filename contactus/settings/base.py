@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG') == 'TRUE'
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -51,15 +51,17 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'sys_user.SysUser'
+#
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:4200",
+#     "https://contact-bridge.web.app"
+#     # "https://uf-front.web.app",
+#     # "https://uf-front.firebaseapp.com",
+#     # "https://sortedtree.com"
+# ]
 
-
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:4200",
-    "https://contact-bridge.web.app"
-    # "https://uf-front.web.app",
-    # "https://uf-front.firebaseapp.com",
-    # "https://sortedtree.com"
-]
+ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_HEADERS = [
     'authorization',
@@ -91,8 +93,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-
 
 
 REST_FRAMEWORK = {
@@ -166,7 +166,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-ALLOWED_HOSTS = ['contact-api-backend.herokuapp.com', ]
+# ALLOWED_HOSTS = ['contact-api-backend.herokuapp.com', ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
