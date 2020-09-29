@@ -32,10 +32,9 @@ class GetMessageDetailPreference(APIView):
         class Meta:
             model = DomainPreference
             fields = ['id',
-                      'message',
                       "first_name",
-                      "last_name", "name", "email", "subject", "anything_else",
-                      "phone_number"]
+                      "last_name", "name",
+                      "phone_number", "email", "subject", 'message', "anything_else"]
 
     def get(self, request, format=None):
         result, exist = get_message_detail_preference(request)
