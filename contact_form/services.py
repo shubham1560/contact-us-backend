@@ -56,7 +56,9 @@ def get_domain(api_key):
 
 def get_preference_array(request):
     # breakpoint()
-    preference = DomainPreference.objects.filter(domain_path=request.user.domain_path, device_type="DLD")
+    preference = DomainPreference.objects.filter(domain_path=request.user.domain_path,
+                                                 user=request.user,
+                                                 device_type="DLD")
     return preference
 
 

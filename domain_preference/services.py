@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from .models import DomainPreference
 
 
@@ -29,3 +31,26 @@ def change_domain_preference_field(request):
         domain=request.user.domain,
         defaults=update_
     )
+
+
+def get_message_detail_preference(request):
+    try:
+        preference = DomainPreference.objects.get(
+            user=request.user,
+            domain=request.user.domain,
+            device_type='DFD',
+            active=True
+        )
+    except ObjectDoesNotExist:
+        return {
+            "first_name": True,
+            "last_name": True,
+            "name": True,
+            "email": True,
+            "subject": True,
+            "message": True,
+            "anything_else": True,
+            "phone_number": True,
+        }, False
+    return preference, True
+

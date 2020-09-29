@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers, status
 from domain_preference.models import DomainPreference
 from rest_framework.response import Response
-from .services import change_domain_preference, change_domain_preference_field
+from .services import change_domain_preference, change_domain_preference_field, get_message_detail_preference
 
 
 class ChangeUserDomainPreference(APIView):
@@ -23,3 +23,25 @@ class ChangeUserDomainPeferenceField(APIView):
     def post(self, request, format=None):
         change_domain_preference_field(request)
         return Response('', status=status.HTTP_201_CREATED)
+
+
+class GetMessageDetailPreference(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    class DomainPreferenceSerailizer(serializers.ModelSerializer):
+        class Meta:
+            model = DomainPreference
+            fields = ['id',
+                      'message',
+                      "first_name",
+                      "last_name", "name", "email", "subject", "anything_else",
+                      "phone_number"]
+
+    def get(self, request, format=None):
+        result, exist = get_message_detail_preference(request)
+        # breakpoint()
+        if exist:
+            response = self.DomainPreferenceSerailizer(result, many=False)
+            return Response(response.data, status=status.HTTP_200_OK)
+        else:
+            return Response(result, status=status.HTTP_200_OK)
