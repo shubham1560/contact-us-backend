@@ -3,10 +3,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import DomainPreference
 
 
-def change_domain_preference(request):
+def change_domain_preference(request, device_type):
     obj, created = DomainPreference.objects.update_or_create(
         user=request.user,
         domain=request.user.domain,
+        device_type=device_type,
         defaults={
             "email": request.data["email"],
             'domain': request.user.domain,
@@ -17,9 +18,12 @@ def change_domain_preference(request):
             "message": request.data['message'],
             "anything_else": request.data['anything_else'],
             "phone_number": request.data['phone_number'],
+            "device_type": device_type,
+            "active": True
         }
     )
-    breakpoint()
+    # breakpoint()
+    # breakpoint()
 
 
 def change_domain_preference_field(request):
@@ -29,11 +33,13 @@ def change_domain_preference_field(request):
     obj, created = DomainPreference.objects.update_or_create(
         user=request.user,
         domain=request.user.domain,
-        defaults=update_
+        defaults=update_,
+        device_type="DLD"
     )
 
 
 def get_message_detail_preference(request):
+    # breakpoint()
     try:
         preference = DomainPreference.objects.get(
             user=request.user,

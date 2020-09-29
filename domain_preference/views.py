@@ -12,8 +12,8 @@ from .services import change_domain_preference, change_domain_preference_field, 
 class ChangeUserDomainPreference(APIView):
     permission_classes = (IsAuthenticated, )
 
-    def post(self, request, format=None):
-        change_domain_preference(request)
+    def post(self, request, device_type, format=None):
+        change_domain_preference(request, device_type)
         return Response('', status=status.HTTP_201_CREATED)
 
 
